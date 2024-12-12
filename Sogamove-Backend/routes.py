@@ -19,7 +19,8 @@ def register():
             first_name=data['first_name'],
             last_name=data['last_name'],
             email=data['email'],
-            password=generate_password_hash(data['password'])  # Encriptar la contraseña
+            password=data['password']
+            #password=generate_password_hash(data['password'])  # Encriptar la contraseña
         )
         db.session.add(new_user)
         db.session.commit()
