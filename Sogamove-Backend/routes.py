@@ -38,17 +38,21 @@ def register():
 def usuarioRegistrado():
     return render_template('usuarioRegistrado.html')
 
-@main_routes.route('/login', methods=['GET', 'POST']) 
-def login(): 
-    if request.method == 'POST': 
-        email = request.form['email'] 
-        password = request.form['password'] 
-        with sqlite3.connect('database.db') as con: 
-            cur = con.cursor() 
-            cur.execute("SELECT * FROM users WHERE email = ?", (email,)) 
-            user = cur.fetchone() 
-        if user and check_password_hash(user[2], password): 
-            session['user_id'] = user[0] 
-            return redirect(url_for('main')) 
-        else: return "Inicio de sesión fallido. Verifica tus credenciales." 
-        return render_template('login.html')
+@main_routes.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        with sqlite3.connect('database.db') as con:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM users WHERE email = ?", (email,))
+            user = cur.fetchone()
+        
+        if user and check_password_hash(user[2], password):
+            session['user_id'] = user[0]
+            return redirect(url_for('main'))
+        else:
+            return "Inicio de sesión fallido. Verifica tus credenciales."
+    
+    return render_template('login.html')
